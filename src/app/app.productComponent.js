@@ -12,18 +12,28 @@ var Product = (function () {
     return Product;
 }());
 exports.Product = Product;
+var PRODUCTS = [
+    { product: "032", name: "School age module for ASEBA-PC", price: 395 },
+    { product: "032u", name: "School age upgrade for ASEBA-PC", price: 365 }
+];
 var ProductComponent = (function () {
     function ProductComponent() {
         this.title = 'ASEBA Quote Generator';
-        this.description = 'Product:';
-        this.price = 'Price:';
+        this.products = PRODUCTS;
     }
+    ProductComponent.prototype.onSelect = function (product) {
+        this.selectedProduct = product;
+        //you can access the selected products price by calling product.price
+    };
+    ProductComponent.prototype.onRemove = function (product) {
+        this.selectedProduct = product;
+    };
     return ProductComponent;
 }());
 ProductComponent = __decorate([
     core_1.Component({
         selector: 'quote-gen',
-        template: "\n  <div>\n    <h1>{{title}}</h1>\n  </div>\n  <div>\n    <table>\n      <tr><td>\n      {{description}}\n</td></tr>\n<tr><td>\n  {{price}}\n</td></tr>\n  </table>\n  </div>\n\n"
+        template: "\n  <div>\n    <h1>{{title}}</h1>\n<ul>\n<li id=\"selectFromList\" *ngFor=\"let product of products\" (click)=\"onSelect(product);\">\n  <span>{{product.product}}</span> {{product.name}} {{product.price}}\n</li>\n</ul>\n  </div>\n<hr />\n\n<div id=\"product_list\" *ngIf=\"selectedProduct\" (click)=\"onRemove(product);\">\n<ul>\n<li>\n{{selectedProduct.name}} $ {{selectedProduct.price}}\n</li>\n</ul>\n\n</div>\n\n"
     })
 ], ProductComponent);
 exports.ProductComponent = ProductComponent;
